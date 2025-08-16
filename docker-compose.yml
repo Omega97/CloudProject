@@ -2,7 +2,7 @@
 
 services:
   nextcloud:
-    image: nextcloud:stable
+    image: nextcloud:28
     container_name: nextcloud
     restart: always
     ports:
@@ -16,7 +16,7 @@ services:
       - nextcloud_data:/var/www/html
 
   locust:
-    image: locustio/locust@sha256:41473c9835159e8b828cfe05dd7de3ce5253b5814aa922d20d11aa3f90912b48
+    image: "locustio/locust@sha256:41473c9835159e8b828cfe05dd7de3ce5253b5814aa922d20d11aa3f90912b48"
     container_name: locust
     command: -f /locust-tasks/tasks.py --host=http://nextcloud
     ports:
@@ -26,7 +26,7 @@ services:
       - ./test-data:/test-data
 
   prometheus:
-    image: prom/prometheus@sha256:bc1794e85c9e00293351b967efa267ce6af1c824ac875a9d0c7ac84700a8b53e
+    image: "prom/prometheus@sha256:bc1794e85c9e00293351b967efa267ce6af1c824ac875a9d0c7ac84700a8b53e"
     container_name: prometheus
     restart: always
     ports:
@@ -40,7 +40,7 @@ services:
       - "--storage.tsdb.retention.time=7d"
 
   nextcloud-exporter:
-    image: ghcr.io/xperimental/nextcloud-exporter@sha256:355c8d0d370d8b45551146764613ae078ca99f64d11453339f3d57c295b4b9a4
+    image: "ghcr.io/xperimental/nextcloud-exporter@sha256:355c8d0d370d8b45551146764613ae078ca99f64d11453339f3d57c295b4b9a4"
     container_name: nextcloud-exporter
     restart: always
     environment:
@@ -52,7 +52,7 @@ services:
       - "9205:9205"
 
   grafana:
-    image: 
+    image: "grafana/grafana@sha256:f9811e4e687ffecf1a43adb9b64096c50bc0d7a782f8608530f478b6542de7d5"
     container_name: grafana
     restart: always
     ports:
@@ -68,3 +68,4 @@ volumes:
   nextcloud_data:
   grafana_data:
   prometheus_data:
+
