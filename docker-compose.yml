@@ -40,7 +40,7 @@ services:
       - "--storage.tsdb.retention.time=7d"
 
   nextcloud-exporter:
-    image: ghcr.io/xperimental/nextcloud-exporter:latest
+    image: ghcr.io/xperimental/nextcloud-exporter@sha256:355c8d0d370d8b45551146764613ae078ca99f64d11453339f3d57c295b4b9a4
     container_name: nextcloud-exporter
     restart: always
     environment:
