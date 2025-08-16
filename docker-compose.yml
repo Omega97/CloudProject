@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 
 services:
   nextcloud:
@@ -10,9 +10,8 @@ services:
     environment:
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
-      - SQLITE_DATABASE=nextcloud
-      # (optional) trusted domains to avoid warnings
       - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_TRUSTED_DOMAINS}
+      - SQLITE_DATABASE=nextcloud
     volumes:
       - nextcloud_data:/var/www/html
 
@@ -24,8 +23,8 @@ services:
       - "8089:8089"
     volumes:
       - ./locust-tasks:/locust-tasks
-      - ./test-data:/test-data  # Volume mount for the folder containing file.txt
-    
+      - ./test-data:/test-data
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -33,9 +32,12 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus:/etc/prometheus
+      - ./prometheus:/etc/prometheus:ro
+      - prometheus_data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=7d"
 
   nextcloud-exporter:
     image: ghcr.io/xperimental/nextcloud-exporter:latest
@@ -60,8 +62,9 @@ services:
       - GF_SECURITY_ALLOW_EMBEDDING=true
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
 
 volumes:
   nextcloud_data:
   grafana_data:
-  prometheus:
+  prometheus_data:
