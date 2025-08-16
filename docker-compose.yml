@@ -16,7 +16,7 @@ services:
       - nextcloud_data:/var/www/html
 
   locust:
-    image: locustio/locust
+    image: locustio/locust@sha256:41473c9835159e8b828cfe05dd7de3ce5253b5814aa922d20d11aa3f90912b48
     container_name: locust
     command: -f /locust-tasks/tasks.py --host=http://nextcloud
     ports:
