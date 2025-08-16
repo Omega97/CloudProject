@@ -1,8 +1,8 @@
-version: "3.8"
+﻿version: "3.8"
 
 services:
   nextcloud:
-    image: nextcloud:latest
+    image: nextcloud:stable
     container_name: nextcloud
     restart: always
     ports:
