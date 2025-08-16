@@ -26,7 +26,7 @@ services:
       - ./test-data:/test-data
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus@sha256:bc1794e85c9e00293351b967efa267ce6af1c824ac875a9d0c7ac84700a8b53e
     container_name: prometheus
     restart: always
     ports:
