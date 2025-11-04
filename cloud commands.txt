@@ -1,0 +1,62 @@
+# Cloud Commands to Run the Docker Image
+
+# 0) (Optional) Run PowerShell as admin only if Docker Desktop service needs starting
+# Win + X -> A
+
+
+# 1) Project dir
+cd C:\Users\monfalcone\PycharmProjects\CloudProject
+
+# 2) Start Docker Desktop and wait for “running”
+Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+
+
+# 3) Start the whole stack
+docker compose --env-file .\env\.env up -d --build
+
+# 4) Sanity check
+docker compose --env-file .\env\.env ps
+
+# 5) Open Nextcloud
+start http://localhost:8080
+
+# 6) Prometheus targets (should show nextcloud-exporter:9205 UP)
+start http://localhost:9090/targets
+
+# 7) Grafana (then add Prometheus datasource at http://prometheus:9090 if not provisioned)
+start http://localhost:3000
+
+# 8) Start Locust (only if not already up)
+# docker compose --env-file .\env\.env up -d locust
+start http://localhost:8089   # set Host = http://nextcloud, Users/Spawn rate, Start
+
+# 9) View Nextcloud exporter metrics
+start http://localhost:9205/metrics
+
+# 10) Open Grafana Explore and verify the exporter health:
+start http://localhost:3000/explore
+
+
+# to find a password:
+Select-String -Path .\env\.env -Pattern '^GF_SECURITY_ADMIN_PASSWORD=' | % { $_.Line.Split('=')[1] }
+
+# Nextcloud Password
+(Select-String -Path .\env\.env -Pattern '^NEXTCLOUD_ADMIN_PASSWORD=').Line.Split('=',2)[1].Trim()
+
+
+# Run query: Prometheus, metric = nextcloud_up, job = nextcloud-exporter
+# code: nextcloud_up{job="nextcloud-exporter"}
+# Should return a flat line at 1 (1=healthy, 0=down)
+# Then, edit code, and run again: 
+# new code: scrape_duration_seconds{job="nextcloud-exporter"}
+
+# Locust host URL
+http://admin:5tGXPUfFStr48URV@nextcloud
+
+# Open the new dashboard screen in Grafana to save your first panel
+start http://localhost:3000/dashboard/new
+
+
+# Shut down
+docker compose --env-file .\env\.env down
+
