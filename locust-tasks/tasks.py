@@ -1,32 +1,26 @@
-"""
-We’re using Locust here because it’s a lightweight, Python-based load testing and benchmarking tool.
-- **Purpose** – It simulates multiple concurrent users interacting with the
-    Nextcloud instance (uploading, downloading, browsing, etc.) so we can see
-    how the system performs under load.
-- **Integration** – Because Locust runs inside the same Docker network as
-    Nextcloud, it can stress-test the service directly (`http://nextcloud`) without
-    worrying about external network delays.
-- **Metrics** – It collects response times, request rates, and failure counts,
-    which Prometheus and Grafana can visualize in real-time.
-- **Why here** – Combined with Prometheus + Grafana, Locust forms the
-    “traffic generator” in the monitoring setup, letting evaluate scaling,
-    bottlenecks, and error handling in a reproducible way.
-"""
-from locust import HttpUser, task, between
+﻿from locust import HttpUser, task, between
+import os, uuid
 
+NC_USER = os.getenv("NC_USER", "admin")  # or set Host as http://admin:PASSWORD@nextcloud
 
-class NextcloudUser(HttpUser):
-    """
-    This is enough to verify the plumbing (service DNS, ports, basic responses).
-    The compose mounts ./locust-tasks and runs -f /locust-tasks/tasks.py, so this file will be found.
+class WebDavUser(HttpUser):
+    wait_time = between(1, 3)
 
-    The @task decorator marks a User class method as a load-testing action that Locust schedules and runs.
-    """
-    wait_time = between(1, 3)   # small think time
+    def on_start(self):
+        self.dav_root = f"/remote.php/dav/files/{NC_USER}"
+        self.name = f"locust-{uuid.uuid4().hex[:8]}.txt"
+        self.payload = b"hello from locust\\n"
 
-    @task
-    def status_and_home(self):
-        # Nextcloud status endpoint (unauthenticated JSON)
-        self.client.get("/status.php", name="status")
-        # Front page
-        self.client.get("/", name="home")
+    @task(2)
+    def upload(self):
+        with self.client.put(f"{self.dav_root}/{self.name}", data=self.payload, name="webdav PUT", catch_response=True) as r:
+            if r.status_code not in (200, 201, 204):
+                r.failure(f"PUT failed: {r.status_code}")
+
+    @task(2)
+    def download(self):
+        self.client.get(f"{self.dav_root}/{self.name}", name="webdav GET")
+
+    @task(1)
+    def delete(self):
+        self.client.delete(f"{self.dav_root}/{self.name}", name="webdav DELETE")
