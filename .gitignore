@@ -1,4 +1,16 @@
 # ─────────────────────────────────────────────────────────────────────────────
+# Private Data
+# ─────────────────────────────────────────────────────────────────────────────
+PRIVATE/
+data/
+!data/.gitkeep
+
+# Figures generated at runtime (optional)
+# figures/
+# !figures/.gitkeep
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # OS / Editor junk
 # ─────────────────────────────────────────────────────────────────────────────
 .DS_Store
@@ -100,16 +112,6 @@ slides/_build/
 # (uncomment next two lines if you want to commit final PDFs)
 # !report/*.pdf
 # !slides/*.pdf
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Data (optional: ignore heavy local data; keep a placeholder)
-# ─────────────────────────────────────────────────────────────────────────────
-data/
-!data/.gitkeep
-
-# Figures generated at runtime (optional)
-# figures/
-# !figures/.gitkeep
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Node / Frontend (only if you add a small UI or docs site)
