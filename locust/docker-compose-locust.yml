@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  locust: # Load testing
+    image: locustio/locust:latest
+    container_name: locust
+    command: -f /locust-tasks/tasks.py --host=http://nextcloud:80
+    ports:
+      - "8089:8089"
+    restart: unless-stopped
+    volumes:
+      - ./locust-tasks:/locust-tasks
+      - ./data:/data
+    networks:
+      - nextcloud_network
+
+networks:
+  nextcloud_network:
+    external: true
