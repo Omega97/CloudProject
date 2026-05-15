@@ -2,13 +2,6 @@
 # Private Data
 # ─────────────────────────────────────────────────────────────────────────────
 PRIVATE/
-data/
-!data/.gitkeep
-
-# Figures generated at runtime (optional)
-# figures/
-# !figures/.gitkeep
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # OS / Editor junk
