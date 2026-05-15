@@ -186,6 +186,13 @@ Host: http://nextcloud
 
 [Results](data/locust_data.txt)
 
+#### 🔄 Optional: Restart Locust
+
+If you are changing the `tasks.py` file, restart Locust before running the stress-test again.
+```
+docker compose --env-file .\env\.env up -d locust
+```
+
 ---
 
 ## Large File Test
