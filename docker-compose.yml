@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  nextcloud:
+    image: nextcloud:28
+    container_name: nextcloud
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=password
+      - NEXTCLOUD_TRUSTED_DOMAINS=localhost
+    volumes:
+      - nextcloud_data:/var/www/html
+
+  nextcloud-exporter:
+    image: ghcr.io/xperimental/nextcloud-exporter@sha256:355c8d0d370d8b45551146764613ae078ca99f64d11453339f3d57c295b4b9a4
+    container_name: nextcloud-exporter
+    restart: always
+    environment:
+      - NEXTCLOUD_SERVER=http://nextcloud
+      - NEXTCLOUD_USERNAME=admin
+      - NEXTCLOUD_PASSWORD=password
+      - NEXTCLOUD_LISTEN_ADDRESS=:9205
+    ports:
+      - "9205:9205"
+
+  prometheus:
+    image: prom/prometheus@sha256:bc1794e85c9e00293351b967efa267ce6af1c824ac875a9d0c7ac84700a8b53e
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=7d"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+
+  locust:
+    image: locustio/locust:latest
+    container_name: locust
+    command: -f /locust-tasks/tasks.py --host=http://nextcloud
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./locust-tasks:/locust-tasks
+
+volumes:
+  nextcloud_data:
+  prometheus_data:
+  grafana_data:
