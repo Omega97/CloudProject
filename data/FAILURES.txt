@@ -1,0 +1,6 @@
+FAILURES
+
+# Failures	Method	Name	Message
+952	DELETE	webdav DELETE	HTTPError('401 Client Error: Unauthorized for url: webdav DELETE')
+1927	GET	webdav GET	HTTPError('401 Client Error: Unauthorized for url: webdav GET')
+1918	PUT	webdav PUT	CatchResponseError('PUT failed: 401')

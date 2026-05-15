@@ -1,0 +1,49 @@
+
+Locust Test Report
+
+During: 2026-05-15 09:00:02 - 2026-05-15 09:01:14
+Target Host: http://nextcloud
+Script: tasks.py
+
+Request Statistics
+Type	Name	# Requests	# Fails	Median (ms)	Average (ms)	Min (ms)	Max (ms)	Average size (bytes)	Current RPS	Current Failures/s
+DELETE	webdav DELETE	182	182	15	16	9	85	527	2.8	2.8
+GET	webdav GET	351	351	15	15.79	9	29	527	5	5
+PUT	webdav PUT	331	331	15	15.41	9	30	527	7.1	7.1
+	Aggregated	864	864	15	15.69	9	85	527	14.9	14.9
+
+Response Time Statistics
+Method	Name	50%ile (ms)	60%ile (ms)	70%ile (ms)	80%ile (ms)	90%ile (ms)	95%ile (ms)	99%ile (ms)	100%ile (ms)
+DELETE	webdav DELETE	15	16	18	19	20	23	30	85
+GET	webdav GET	15	16	18	20	21	23	29	29
+PUT	webdav PUT	15	16	17	19	21	22	27	30
+	Aggregated	15	16	18	19	21	23	29	85
+
+Failures Statistics
+# Failures	Method	Name	Message
+182	DELETE	webdav DELETE	
+
+HTTPError('401 Client Error: Unauthorized for url: webdav DELETE')
+351	GET	webdav GET	
+
+HTTPError('401 Client Error: Unauthorized for url: webdav GET')
+331	PUT	webdav PUT	
+
+CatchResponseError('PUT failed: 401')
+
+Charts
+
+Final ratio
+
+Ratio Per Class
+100.0% WebDavUser
+20.0% delete
+40.0% download
+40.0% upload
+
+Total Ratio
+100.0% WebDavUser
+20.0% delete
+40.0% download
+40.0% upload
+
