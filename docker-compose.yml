@@ -21,8 +21,10 @@ services:
     environment:
       - NEXTCLOUD_SERVER=http://nextcloud
       - NEXTCLOUD_USERNAME=admin
-      - NEXTCLOUD_PASSWORD=password
+      - NEXTCLOUD_PASSWORD=5tGXPUfFStr48URV
       - NEXTCLOUD_LISTEN_ADDRESS=:9205
+      - NEXTCLOUD_TIMEOUT=60s           
+      - NEXTCLOUD_REQUEST_TIMEOUT=30s
     ports:
       - "9205:9205"
 
