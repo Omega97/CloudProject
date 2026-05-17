@@ -47,7 +47,7 @@ docker ps -a
 ## Nextcloud 
 
 
-### Features
+### ✨ Features
 
 All of the following features are automatically provided by Nextcloud.
 
@@ -89,7 +89,7 @@ docker compose ps
 
 > Hop on http://localhost:8080 to log into the **admin account**.
 
-You can find your credentias in the `env\.env` file.
+You can find your credentials in the `env\.env` file.
 ```
 NEXTCLOUD_ADMIN_USER=[username]
 NEXTCLOUD_ADMIN_PASSWORD=[password]
@@ -179,37 +179,54 @@ Host: http://nextcloud
 
 ## Stress Test with Locust
 
+The [tasks.py](locust-tasks/tasks.py) file contains the tasks that Locust will execute during the stress-test.
+
 - Number of users (peak concurrency): 30
-- Ramp Up (users started/second): 1
+- Ramp Up (users started/second): 2
 - Host: http://nextcloud
+- (Optional) runtime: 45s
 - START SWARM
 
 [Results](data/locust_data.txt)
 
 #### 🔄 Optional: Restart Locust
 
-If you are changing the `tasks.py` file, restart Locust before running the stress-test again.
+Changing the `tasks.py` file to run bigger file sizes. 
+Then, restart Locust before running the stress-test again.
 ```
+docker compose --env-file .\env\.env stop locust
+docker compose --env-file .\env\.env rm -f locust
 docker compose --env-file .\env\.env up -d locust
 ```
 
----
+## Grafana
 
-## Large File Test
+http://localhost:3000/
 
+#### Metrics (Queries) 📐
 
+1. Nextcloud Up
+- Add visualization
+- Data source: Prometheus
+- Type: Time Series
+- Job = nextcloud-exporter 
+- Panel Title: Nextcloud Up
+- Metric: `nextcloud_up{job="nextcloud-exporter"}`
+- Run queries
+- Apply
 
----
+2. Active Users (stat)
+- Add > Visualization
+- Metric: `nextcloud_active_users_total{job="nextcloud-exporter"}`
 
-#TODOs...
-- "The system should be scalable, secure, and cost-efficient"
-- Scalability: "How well does the system handle increased load? How does the system perform on  small files (a few KB), large files (GBs), and average (MBs)"
-- Security: "Are appropriate security measures implemented?"
-- Cost-Efficiency: *"Has the student considered cost implications and optimized the system accordingly?"
-- Internal Metrics: Nextcloud Exporter?
-- Time-series Database and Monitoring System: Prometheus?
-- Data Visualization: Grafana?
-- Performance & Load Testing: Locust? 
+3. Total Files (Stat)
+- Metric: `nextcloud_files_total{job="nextcloud-exporter"}`
+
+4. Scrape Duration
+- Metric: `scrape_duration_seconds{job="nextcloud-exporter"}`
+
+5. Requests per Second 
+- Metric: `rate(nextcloud_php_request_duration_seconds_count{job="nextcloud-exporter"}[30s])`
 
 ---
 
@@ -220,3 +237,15 @@ docker compose --env-file .\env\.env up -d locust
 docker compose --env-file .\env\.env down
 ```
 (or `docker_down` if you set up the shortcut)
+
+---
+
+## TODOs
+
+- [ ] "The system should be scalable, secure, and cost-efficient"
+- [x] Scalability: "How well does the system handle increased load? How does the system perform on  small files (a few KB), large files (GBs), and average (MBs)"
+- [ ] Security: "Are appropriate security measures implemented?"
+- [x] Cost-Efficiency: *"Has the student considered cost implications and optimized the system accordingly?"
+- [x] Internal Metrics: Nextcloud Exporter
+- [x] Time-series Database and Monitoring System: Prometheus
+- [x] Data Visualization: Grafana
