@@ -20,14 +20,14 @@ This setup satisfies the course requirements: user authentication/authorization,
 
 #### Core Components
 
-| Component              | Technology                  | Purpose |
-|------------------------|-----------------------------|---------|
-| **File Storage**       | Nextcloud 28                | Main application (user files, WebDAV) |
-| **Orchestration**      | Docker Compose v3.8         | Multi-container management |
-| **Monitoring**         | Prometheus + Nextcloud Exporter | Metrics collection |
-| **Visualization**      | Grafana                     | Dashboards and real-time analytics |
-| **Load Testing**       | Locust                      | Stress testing (upload/download/delete) |
-| **Persistent Storage** | Docker Volumes              | Nextcloud data, Prometheus, Grafana |
+| Component              | Technology                      | Purpose                                 |
+|------------------------|---------------------------------|-----------------------------------------|
+| **File Storage**       | Nextcloud (28)                  | Main application (user files, WebDAV)   |
+| **Orchestration**      | Docker Compose (v3.8)           | Multi-container management              |
+| **Monitoring**         | Prometheus + Nextcloud Exporter | Metrics collection                      |
+| **Visualization**      | Grafana                         | Dashboards and real-time analytics      |
+| **Load Testing**       | Locust                          | Stress testing (upload/download/delete) |
+| **Persistent Storage** | Docker Volumes                  | Nextcloud data, Prometheus, Grafana     |
 
 **Key Docker Compose services** (see `docker-compose.yml`):
 - `nextcloud`: Main app with admin user pre-configured.
@@ -131,17 +131,6 @@ I ran multiple stress tests with different file sizes.
 - **Auto Scaling Group** based on CPU / request load
 
 **Justification**: AWS offers excellent managed services, pay-as-you-go pricing, strong security (IAM, VPC, Security Groups), and global reach. Alternatives like Azure or GCP are also viable, but I am most familiar with AWS.
-
----
-
-### Future Improvements
-
-- Add PostgreSQL + Redis for better performance/scalability.
-- Implement full CI/CD (GitHub Actions) for Docker images.
-- Add alerting via AlertManager + Slack/Email.
-- Enable Nextcloud encryption and MFA.
-- Deploy behind a reverse proxy with rate limiting.
-- Test with real large files (GB range) and optimize storage backend.
 
 ---
 

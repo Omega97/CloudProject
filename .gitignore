@@ -4,6 +4,7 @@
 PRIVATE/
 data/locust_metrics
 data/test-data
+.obsidian/
 
 # ─────────────────────────────────────────────────────────────────────────────
 # OS / Editor junk
