@@ -5,6 +5,9 @@ Cloud-Based File Storage System
 
 > Check the [execution log](execution_log.md) to see my work!
 
+- Report: [[CUSMAFAIT_report_Cloud.pdf]]
+- Slides: [[CUSMAFAIT_presentation_Cloud.pdf]]
+
 ---
 
 A fully containerized **Nextcloud monitoring and testing stack** built with **Docker Compose**.  
