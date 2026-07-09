@@ -1,4 +1,19 @@
 # ─────────────────────────────────────────────────────────────────────────────
+# AI / Agent tooling (Cursor, Grok, local analysis)
+# ─────────────────────────────────────────────────────────────────────────────
+mcps/
+terminals/
+pptx_unpacked/
+pptx_thumbnails/
+.cursor/
+
+# AI-generated notes & review artifacts
+ai-feed.md
+ai-*.md
+**/presentation-notes.md
+report & slides/presentation-notes.md
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Private Data
 # ─────────────────────────────────────────────────────────────────────────────
 PRIVATE/
