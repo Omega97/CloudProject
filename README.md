@@ -5,8 +5,8 @@ Cloud-Based File Storage System
 
 > Check the [execution log](execution_log.md) to see my work!
 
-- Report: [[CUSMAFAIT_report_Cloud.pdf]]
-- Slides: [[CUSMAFAIT_presentation_Cloud.pdf]]
+- Report: [[OCUSMAFAIT_report_Cloud.pdf]]
+- Slides: [[OCUSMAFAIT_presentation_Cloud.pdf]]
 
 ---
 
